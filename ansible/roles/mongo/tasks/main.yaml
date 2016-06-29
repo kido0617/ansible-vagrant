@@ -1,0 +1,22 @@
+---
+
+- name: copy mongodb.repo
+  copy: src=mongodb.repo dest=/etc/yum.repos.d/mongodb.repo owner=root
+  
+- name: install mongodb
+  yum: pkg=mongodb-org
+  
+- name: copy rlimit file for mongo WARNING "soft rlimits too low"
+  copy: src=99-mongodb-nproc.conf dest=/etc/security/limits.d/99-mongodb-nproc.conf owner=root
+
+- name: create dir for mongo WARNING "/sys/kernel/mm/transparent_hugepage/enabled is 'always'"
+  file: path=/etc/tuned/no-thp state=directory
+
+- name: copy disable thp file
+  copy: src=tuned.conf dest=/etc/tuned/no-thp/tuned.conf owner=root
+
+- name: Activate the tuned profile
+  shell: tuned-adm profile no-thp
+
+- name: start mongodb
+  service: name=mongod state=started

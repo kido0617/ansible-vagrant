@@ -1,0 +1,13 @@
+- name: install mariadb
+  yum: name={{ item }} state=installed
+  with_items:
+    - MySQL-python
+    - mariadb
+    - mariadb-server
+    - libselinux-python
+
+- name: start mariadb
+  service: name=mariadb state=started enabled=yes
+
+- name: create user
+  mysql_user: name=root priv=*.*:ALL state=present

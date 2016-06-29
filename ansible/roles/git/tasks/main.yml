@@ -1,0 +1,10 @@
+---
+
+- name: install git
+  yum: name=git state=present
+
+- name: Upload the private key used for Github cloning
+  copy: src=~/.ssh/bitbucket_id_rsa dest=/home/{{user_name}}/.ssh/bitbucket_id_rsa mode=600 owner={{user_name}} group={{user_name}}
+
+- name: Upload the config
+  copy: src=config dest=/home/{{user_name}}/.ssh/config mode=600 owner={{user_name}} group={{user_name}}

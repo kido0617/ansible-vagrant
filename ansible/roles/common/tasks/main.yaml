@@ -1,0 +1,15 @@
+- name: Set timezone
+  shell: timedatectl set-timezone Asia/Tokyo
+
+- name: install remi repository
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm state=present 
+ 
+- name: yum update
+  yum: name=* state=latest
+ 
+- name: Install basic packages
+  yum: name={{ item }} state=installed
+  with_items:
+    - zip
+    - unzip
+    - vim

@@ -1,0 +1,12 @@
+---
+- hosts: vagrants
+  become: yes
+
+  
+  roles:
+    - init
+    - common
+    - git
+    - nginx
+    - php
+    - mariadb
